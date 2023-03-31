@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <style scr="style.css"></style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <title>Guestbook</title>
+</head>
+<body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/guestbook">Guestbook</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/newmessage">New message</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/ajaxmessage">Ajax message</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+    <div class="container">
+        <h2>Post New Message To Guestbook(AJAX)</h2>
+        <form method="post" action="/ajaxmessage">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="username" class="form-control" id="username"  name="username">
+          </div>
+          <div class="form-group">
+            <label for="country">Country:</label>
+            <input type="country" class="form-control" id="country"  name="country">
+          </div>
+          <div class="form-group">
+              <label for="country">Message:</label>
+              <input type="message" class="form-control" id="message" name="message">
+            </div>
+          
+          <button type="button" id="button1" class="btn btn-default">Submit</button>
+        </form>
+        <div id="messages">
+          <h3>Messages: </h3>
+      
+        </div>
+      </div>
+
+
+
+   
+    <script>
+        
+        const { v4: uuidv4 } = require('uuid');
+        const id = uuidv4();
+        var button = document.getElementById("button1");
+    button.addEventListener("click", function() {
+        var username = document.getElementById("username").value;
+        var country = document.getElementById("country").value;
+        var message = document.getElementById("message").value;
+        
+
+         
+         var xmlhttp = new XMLHttpRequest();
+         xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+            
+              document.getElementById("messages").innerHTML += this.responseText;
+              console.log("tämäkö tulostuu"+this.responseText);
+            }
+          };
+          xmlhttp.open("POST", "/ajaxmessage", true);
+          
+          xmlhttp.setRequestHeader(
+            "Content-type",
+            "application/x-www-form-urlencoded"
+          );
+          xmlhttp.send("username=" + username + "&country="+ country + "&message="+message) 
+          
+    })
+        
+    </script>
+    
+
+</body>
+</html>
