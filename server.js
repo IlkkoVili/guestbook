@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const path = require("path");
 const fs = require('fs');
+const port = process.env.PORT || 3000;
 
 // Route for home page
 app.get('/', (req, res) => {
@@ -124,6 +125,5 @@ app.post('/ajaxmessage', function(req, res) {
 });
 
 // Start the server
-app.listen(3000, () => {
-  console.log('Server listening on port 3000!');
-});
+app.listen(port);
+
